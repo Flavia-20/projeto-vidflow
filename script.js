@@ -17,10 +17,10 @@ async function buscarEMostrarVideos(){
                         <img class="img-canal" src="${video.imagem} alt="Logo do Canal">
                         <h3 class="titulo-video">${video.titulo}</h3>
                         <p class="titulo-canal">${video.descricao}</p>
-                        <p class="categoria" hidden>${video.categoria}</p>
+                        <p class="categoria" hidden>${video.categoria}</p> 
                     </div>
                 </li>
-                `;
+                `;/*a class categoria esta hiddem porque não preciso que ela apareca, apenas que ela esteja aqui para eu poder usar */
             })
     } catch(error){
         containerVideos.innerHTML = `<p> Houve um erro ao carregar os vídeos: ${error}</p>`
@@ -30,20 +30,20 @@ async function buscarEMostrarVideos(){
 
 buscarEMostrarVideos();
 
-
+//vinculando evento de pesquias a barra de pesquisa
 const barraDePesquisa = document.querySelector(".pesquisar__input");
 
-barraDePesquisa.addEventListener("input", filtrarPesquisa);
+barraDePesquisa.addEventListener("input", filtrarPesquisa);//adicionando um EventListener para que todsa vez que for digitado algo na barra de pesquisa chame a função filtrar pesquisa
 
-function filtrarPesquisa(){
-    const videos = document.querySelectorAll(".videos__item");
+function filtrarPesquisa(){//nessa functios os videos que estão no código HTML serão capturados e passar por eles vendo se o que foi digitado na pesquisa corresponde a algum titulo de video
+    const videos = document.querySelectorAll(".videos__item");//essa classe que a que foi definida no JS na linha 14
 
     if(barraDePesquisa.value != ""){
-        for(let video of videos){
+        for(let video of videos){//aqui é para passar por cada video, poderia ser usapo um ForEach
             let titulo = video.querySelector(".titulo-video").textContent.toLowerCase();
             let valorFiltro = barraDePesquisa.value.toLowerCase();
 
-            if(!titulo.includes(valorFiltro)){
+            if(!titulo.includes(valorFiltro)){//se o titulo do video não incle o valor pesquisado então ele não vai aparecer na tela 
                 video.style.display = "none";
             } else {
                 video.style.display = "block";
@@ -55,16 +55,18 @@ function filtrarPesquisa(){
     }
 }
 
-const botaoCategoria = document.querySelectorAll(".superior__item");
+//Adicionando filtro de categorias
+const botaoCategoria = document.querySelectorAll(".superior__item");//capturando os botões pelas classes
 
 botaoCategoria.forEach((botao) => {
     let nomeCategoria = botao.getAttribute("name");
-    botao.addEventListener("click", () => filtrarPorCategoria(nomeCategoria));
+    botao.addEventListener("click", () => filtrarPorCategoria(nomeCategoria));//com o adventerListener quando o botão for clicado será chamada a função filtrarPorCategoria
 })
 
 function filtrarPorCategoria(filtro){
     const videos = document.querySelectorAll(".videos__item");
     for(let video of videos){
+        //aqui vai ser comparado o name do botão clicado com a categoria do video, a categoria já está no arquivo .json, trazemos essa categoria para cá na linha 20
         let categoria = video.querySelector(".categoria").textContent.toLowerCase();
         let valorFiltro = filtro.toLowerCase();
 
